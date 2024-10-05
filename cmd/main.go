@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"geocity/georedis"
 	"geocity/handlers"
+	"log"
 	"os"
 
 	_ "github.com/joho/godotenv/autoload"
@@ -20,11 +22,15 @@ func getPort() string {
 
 func main() {
 	geoDB := georedis.NewClientMust(os.Getenv("REDIS_PUBLIC_URL"))
-
+	c, err := geoDB.GetSiteViewCount(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	log.Println(c)
 	handler := handlers.Handler{DB: geoDB}
 	e := echo.New()
 
-	e.Static("/", "./static")
+	e.Static("/", "static")
 
 	handler.AttachRoutes(e)
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{

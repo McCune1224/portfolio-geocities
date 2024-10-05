@@ -1,12 +1,68 @@
 package pages
 
 import "geocity/static/pages/templates"
+import "strconv"
 
-templ Index() {
+templ Index(viewCount int64) {
 	@templates.Base(templates.DefaultBase()) {
-		<body>
-			<h1>Welcome to the McWeb</h1>
-			<p>Lots of cool things to come!</p>
+		<body
+			class="p-10 mx-64 bg-zinc-900 bg-cover bg-center"
+			style="background-image: url('/media/space_background.png');"
+		>
+			<div class="p-2 bg-zinc-700 border-8 border-double border-orange-300 text-white">
+				<div class="opacity-100">
+					<h1 class="text-5xl font-comic-light text-center py-5">
+						Welcome to the
+						<b class="rainbow font-comic-bold">McWeb</b>
+						Cyber Repository!
+					</h1>
+					<div class="grid grid-cols-4 align-center content-center ">
+						<img
+							class="rainbow flip col-span-3"
+							src="media/spacedog.gif"
+							alt="spacedog"
+						/>
+						<img
+							class="justify-self-end"
+							src="media/spacedog.gif"
+							alt="spacedog"
+						/>
+					</div>
+					<p class="text-2xl font-comic-light text-center">
+						Greetins traveller! Welcome to my little corner of the cyberspace! I'm Alex! 
+						This is my fun little website to share my passions and interests with you! 
+						If you're interested in my work, please feel free to check out my GitHub profile! 
+						You can find me on GitHub at <a class="rainbow" target="_blank" href="https://github.com/mccune1224">https://github.com/mckusa</a>. 
+						Thank you for visiting my website! Theres plenty of goodies to find here, good luck out there!
+					</p>
+				</div>
+				<div class=" grid grid-cols-2">
+					<div class=" border-4 border-dotted flex flex-row align-center content-center">
+						<a href="/spooky">
+							<img
+								class="tilt"
+								src="media/smoking_skull.gif"
+								alt="Me as a flaming skeleton"
+							/>
+						</a>
+						<p class="font-comic-light text-2xl text-center content-center text-orange-300">
+							CLICK ME IF YOU DARE TO LEARN ABOUT ME! 
+						</p>
+					</div>
+					<div class="border-4 border-dotted">
+						<p
+							class="font-comic-light text-3xl text-center text-orange-300"
+						>
+							You are traveller #
+						</p>
+						<p
+							class="text-4xl text-center text-orange-300"
+						>
+							{ strconv.Itoa(int(viewCount)) }
+						</p>
+					</div>
+				</div>
+			</div>
 		</body>
 	}
 }

@@ -18,7 +18,8 @@ func NewHandler(db *georedis.GeoDB) *Handler {
 }
 
 func (h *Handler) AttachRoutes(e *echo.Echo) {
-	e.GET("/", HomeHandler)
+	e.GET("/", h.HomeHandler)
+	e.GET("/spooky", h.SpookyHandler)
 }
 
 // This custom Render replaces Echo's echo.Context.Render() with templ's templ.Component.Render().
@@ -29,10 +30,20 @@ func Render(ctx echo.Context, statusCode int, t templ.Component) error {
 	if err := t.Render(ctx.Request().Context(), buf); err != nil {
 		return err
 	}
-
 	return ctx.HTML(statusCode, buf.String())
 }
 
-func HomeHandler(c echo.Context) error {
-	return Render(c, http.StatusOK, pages.Index())
+func (h *Handler) HomeHandler(c echo.Context) error {
+	viewTally, err := h.DB.IncrementSiteViewCount(c.Request().Context())
+	if err != nil {
+		c.Logger().Error(err)
+		return err
+	}
+
+	return Render(c, http.StatusOK, pages.Index(viewTally))
+}
+
+func (h *Handler) SpookyHandler(c echo.Context) error {
+
+	return Render(c, http.StatusOK, pages.SpookyPage())
 }

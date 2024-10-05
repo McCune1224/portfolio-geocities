@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: "comic-bold";
+  src: url("../fonts/ldf_bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "comic-light";
+  src: url("./../fonts/ldf_light.ttf") format("truetype");
+}

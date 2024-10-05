@@ -1,0 +1,43 @@
+#shadowBox {
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.2);
+  /* Black w/opacity/see-through */
+  border: 3px solid;
+}
+
+.rainbow {
+  animation: colorRotate 6s linear 0s infinite;
+  /* animation: spin 10s linear infinite; */
+}
+
+.spin {
+  animation: spin 10s linear infinite;
+}
+
+@keyframes colorRotate {
+  from {
+    color: #F6F930;
+  }
+  10% {
+    color: #FF9914;
+  }
+  50% {
+    color: #F6F930;
+  }
+  75% {
+    color: #FC2B29;
+  }
+  100% {
+    color: #F6F930;
+  }
+}
+
+/* TILT ON HOVER */
+.tilt:hover {
+  transform: rotate(-10deg);
+}
+
+.flip {
+  transform: scaleX(-1);
+}

@@ -1,0 +1,22 @@
+EGTYPT: 
+  [] PAPAYRUS FONT
+  [] SAND
+
+TESCO:
+  [] BLAND PRODUCTS
+  [] BRITISH
+  [] ...
+
+SPOOKY:
+  [] HAUNTED FONTS
+  [] SPIDERS AND SKELES
+
+ARCADE:
+  [] 
+
+
+AQUATIC THEME:
+  []
+
+ANIME-MOODBOARD:
+  []

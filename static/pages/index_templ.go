@@ -9,8 +9,9 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "geocity/static/pages/templates"
+import "strconv"
 
-func Index() templ.Component {
+func Index(viewCount int64) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -43,7 +44,20 @@ func Index() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body><h1>Welcome to the McWeb</h1><p>Lots of cool things to come!</p></body>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"p-10 mx-64 bg-zinc-900 bg-cover bg-center\" style=\"background-image: url(&#39;/media/space_background.png&#39;);\"><div class=\"p-2 bg-zinc-700 border-8 border-double border-orange-300 text-white\"><div class=\"opacity-100\"><h1 class=\"text-5xl font-comic-light text-center py-5\">Welcome to the <b class=\"rainbow font-comic-bold\">McWeb</b> Cyber Repository!</h1><div class=\"grid grid-cols-4 align-center content-center \"><img class=\"rainbow flip col-span-3\" src=\"media/spacedog.gif\" alt=\"spacedog\"> <img class=\"justify-self-end\" src=\"media/spacedog.gif\" alt=\"spacedog\"></div><p class=\"text-2xl font-comic-light text-center\">Greetins traveller! Welcome to my little corner of the cyberspace! I'm Alex!  This is my fun little website to share my passions and interests with you!  If you're interested in my work, please feel free to check out my GitHub profile!  You can find me on GitHub at <a class=\"rainbow\" target=\"_blank\" href=\"https://github.com/mccune1224\">https://github.com/mckusa</a>.  Thank you for visiting my website! Theres plenty of goodies to find here, good luck out there!</p></div><div class=\" grid grid-cols-2\"><div class=\" border-4 border-dotted flex flex-row align-center content-center\"><a href=\"/spooky\"><img class=\"tilt\" src=\"media/smoking_skull.gif\" alt=\"Me as a flaming skeleton\"></a><p class=\"font-comic-light text-2xl text-center content-center text-orange-300\">CLICK ME IF YOU DARE TO LEARN ABOUT ME! </p></div><div class=\"border-4 border-dotted\"><p class=\"font-comic-light text-3xl text-center text-orange-300\">You are traveller #</p><p class=\"text-4xl text-center text-orange-300\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(int(viewCount)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `static/pages/index.templ`, Line: 61, Col: 37}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div></div></body>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

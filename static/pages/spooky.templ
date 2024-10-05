@@ -1,0 +1,14 @@
+package pages
+
+import "geocity/static/pages/templates"
+
+templ SpookyPage() {
+	@templates.Base(templates.DefaultBase()) {
+		<body>
+			<a href="/">
+				<img src="/media/.png" alt="Back to the home page"/>
+			</a>
+			<h1>Spooky Page</h1>
+		</body>
+	}
+}
