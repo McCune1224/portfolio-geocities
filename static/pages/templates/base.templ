@@ -1,0 +1,29 @@
+package templates
+
+type BaseConfig struct {
+	Title   string
+	CssLink string
+}
+
+func DefaultBase() BaseConfig {
+	return BaseConfig{
+		Title:   "My McWebsite!",
+		CssLink: "/styles/styles.css",
+	}
+}
+
+templ Base(config BaseConfig) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			// <link rel="stylesheet" href={ config.CssLink }/>
+			<title>My McWebsite!</title>
+		</head>
+		<body>
+			{ children... }
+		</body>
+		<footer></footer>
+	</html>
+}
