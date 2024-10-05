@@ -11,25 +11,25 @@
   /* animation: spin 10s linear infinite; */
 }
 
-.spin {
-  animation: spin 10s linear infinite;
+.twirl {
+  animation: rotation 2s infinite linear;
 }
 
 @keyframes colorRotate {
   from {
-    color: #F6F930;
+    color: #4CC9F0;
   }
   10% {
-    color: #FF9914;
+    color: #D90368;
   }
   50% {
-    color: #F6F930;
+    color: #C5283D;
   }
   75% {
-    color: #FC2B29;
+    color: #FFD97D;
   }
   100% {
-    color: #F6F930;
+    color: #04A777;
   }
 }
 
@@ -40,4 +40,15 @@
 
 .flip {
   transform: scaleX(-1);
+
+
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }

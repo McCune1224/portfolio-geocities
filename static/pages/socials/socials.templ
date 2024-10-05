@@ -1,0 +1,9 @@
+package socials
+
+templ Socials(url string) {
+	<div class="bg-zinc-900 border-8 border-double border-zinc-700">
+		<a href={ templ.SafeURL(url) } target="_blank">
+			{ children... }
+		</a>
+	</div>
+}

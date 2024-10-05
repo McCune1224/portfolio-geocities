@@ -10,6 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "geocity/static/pages/templates"
 import "strconv"
+import "geocity/static/pages/socials"
 
 func Index(viewCount int64) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -44,20 +45,68 @@ func Index(viewCount int64) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"p-10 mx-64 bg-zinc-900 bg-cover bg-center\" style=\"background-image: url(&#39;/media/space_background.png&#39;);\"><div class=\"p-2 bg-zinc-700 border-8 border-double border-orange-300 text-white\"><div class=\"opacity-100\"><h1 class=\"text-5xl font-comic-light text-center py-5\">Welcome to the <b class=\"rainbow font-comic-bold\">McWeb</b> Cyber Repository!</h1><div class=\"grid grid-cols-4 align-center content-center \"><img class=\"rainbow flip col-span-3\" src=\"media/spacedog.gif\" alt=\"spacedog\"> <img class=\"justify-self-end\" src=\"media/spacedog.gif\" alt=\"spacedog\"></div><p class=\"text-2xl font-comic-light text-center\">Greetins traveller! Welcome to my little corner of the cyberspace! I'm Alex!  This is my fun little website to share my passions and interests with you!  If you're interested in my work, please feel free to check out my GitHub profile!  You can find me on GitHub at <a class=\"rainbow\" target=\"_blank\" href=\"https://github.com/mccune1224\">https://github.com/mckusa</a>.  Thank you for visiting my website! Theres plenty of goodies to find here, good luck out there!</p></div><div class=\" grid grid-cols-2\"><div class=\" border-4 border-dotted flex flex-row align-center content-center\"><a href=\"/spooky\"><img class=\"tilt\" src=\"media/smoking_skull.gif\" alt=\"Me as a flaming skeleton\"></a><p class=\"font-comic-light text-2xl text-center content-center text-orange-300\">CLICK ME IF YOU DARE TO LEARN ABOUT ME! </p></div><div class=\"border-4 border-dotted\"><p class=\"font-comic-light text-3xl text-center text-orange-300\">You are traveller #</p><p class=\"text-4xl text-center text-orange-300\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"p-10 mx-64 bg-zinc-900 bg-cover bg-center \nselection:bg-purple-300 selection:text-purple-900\n\t\t\t\" style=\"background-image: url(&#39;/media/space_background.png&#39;);\"><div class=\"text-white rainbow flex\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(int(viewCount)))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `static/pages/index.templ`, Line: 61, Col: 37}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			templ_7745c5c3_Var3 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+				templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+				if !templ_7745c5c3_IsBuffer {
+					defer func() {
+						templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+						if templ_7745c5c3_Err == nil {
+							templ_7745c5c3_Err = templ_7745c5c3_BufErr
+						}
+					}()
+				}
+				ctx = templ.InitializeContext(ctx)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p>Github</p><img class=\"rainbow tilt\" src=\"media/pc.gif\" alt=\"github\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				return templ_7745c5c3_Err
+			})
+			templ_7745c5c3_Err = socials.Socials("https://github.com/mccune1224").Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div></div></body>")
+			templ_7745c5c3_Var4 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+				templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+				if !templ_7745c5c3_IsBuffer {
+					defer func() {
+						templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+						if templ_7745c5c3_Err == nil {
+							templ_7745c5c3_Err = templ_7745c5c3_BufErr
+						}
+					}()
+				}
+				ctx = templ.InitializeContext(ctx)
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<p class=\"\">Twitter</p><img preload=\"true\" class=\"rainbow tilt\" src=\"media/bird_mail.gif\" alt=\"github\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				return templ_7745c5c3_Err
+			})
+			templ_7745c5c3_Err = socials.Socials("https://twitter.com/KusaAlexM").Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<audio controls autoplay loop><source src=\"media/club_penguin.mp3\" type=\"audio/mp3\"> Your browser does not support the audio element.</audio></div><div class=\"p-2 bg-zinc-700 border-8 border-double border-purple-300 text-white\"><div class=\"opacity-100\"><h1 class=\"text-5xl font-comic-light text-center py-5\">Welcome to the <b class=\"rainbow font-comic-bold\">McWeb</b> Cyber Repository!</h1><p class=\"text-2xl font-comic-light text-center\">Greetins traveller! Welcome to my little corner of the cyberspace, I'm <b class=\"rainbow\">Alex!</b> This is my fun little website to share my passions and interests with you!  If you're interested in my work, please feel free to check out my socials above!  Thank you for visiting my website! <p class=\"p-5 text-2xl font-comic-light text-center\">Theres plenty of goodies to find here, good luck out there!</p></p></div><div class=\" grid grid-cols-2\"><div class=\" border-4 border-dotted flex flex-row align-center justify-center content-center\"><a href=\"/spooky\"><img class=\"animate-bounce\" src=\"media/smoking_skull.gif\" alt=\"Me as a flaming skeleton\"></a><p class=\"text-red-400 bg-zinc-900 font-comic-bold text-2xl text-center content-center\">CLICK US IF YOU DARE! </p><a href=\"/spooky\"><img class=\"animate-bounce\" src=\"media/smoking_skull.gif\" alt=\"Me as a flaming skeleton\"></a></div><div class=\"border-4 border-dotted\"><p class=\"font-comic-light text-3xl text-center text-purple-300\">You are traveller #</p><p class=\"text-4xl text-center text-purple-300\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(int(viewCount)))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `static/pages/index.templ`, Line: 91, Col: 37}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</p></div></div><div class=\"grid grid-cols-4 justify-between align-center content-center\"><img class=\"flip justify-self-center\" src=\"media/spaceship2.gif\" alt=\"spaceship\"> <img class=\"flip\" src=\"media/Hyper_Sonic.gif\" alt=\"sonic\"> <img class=\"flip\" src=\"media/smiley-spaceship.gif\" alt=\"spaceship\"> <img class=\"flip \" src=\"media/spaceship.gif\" alt=\"spaceship\"> <img class=\"justify-self-end\" src=\"media/spacedog.gif\" alt=\"spacedog\"></div></div></body>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -4,11 +4,25 @@ import "geocity/static/pages/templates"
 
 templ SpookyPage() {
 	@templates.Base(templates.DefaultBase()) {
-		<body>
+		<body
+			class="p-10 mx-64 bg-zinc-900 bg-cover bg-center"
+			style="background-image: url('/media/skeleton_background.jpg');"
+		>
 			<a href="/">
-				<img src="/media/.png" alt="Back to the home page"/>
+				<img src="/media/back_hand.gif" alt="Back to the home page"/>
 			</a>
-			<h1>Spooky Page</h1>
+			<div class="p-2 bg-zinc-700 border-8 border-double border-orange-300 text-white">
+				// skeleton spookey stuff:
+				<h1
+					class="text-5xl font-comic-light text-center py-5"
+				>You've found the spooky page!</h1>
+				<div class="grid grid-row-4">
+					<img src="/media/skeleton.gif" alt="Back to the home page"/>
+					<img src="/media/smoking_skull.gif" alt="Back to the home page"/>
+					<img src="/media/bouncy_skelly.gif" alt="Back to the home page"/>
+					<img src="/media/captain_skelly.gif" alt="Back to the home page"/>
+				</div>
+			</div>
 		</body>
 	}
 }
