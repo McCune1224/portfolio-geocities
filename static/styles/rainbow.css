@@ -4,7 +4,7 @@
 }
 
 .twirl {
-  animation: rotation 2s infinite linear;
+  animation: rotation 24s infinite linear;
 }
 
 .tilt:hover {
@@ -87,10 +87,10 @@
 
 .dvd {
   position: absolute;
-  -webkit-animation: moveX 4s linear 2s infinite alternate, moveY 1.4s linear 2s infinite alternate;
-  -moz-animation: moveX 4s linear 2s infinite alternate, moveY 1.4s linear 2s infinite alternate;
-  -o-animation: moveX 4s linear 2s infinite alternate, moveY 1.4s linear 2s infinite alternate;
-  animation: moveX 4s linear 2s infinite alternate, moveY 1.4s linear 2s infinite alternate;
+  -webkit-animation: moveX 1s linear 1s infinite alternate, moveY 2.4s linear 2s infinite alternate;
+  -moz-animation: moveX 1s linear 1s infinite alternate, moveY 1.4s linear 2s infinite alternate;
+  -o-animation: moveX 1s linear 1s infinite alternate, moveY 1.4s linear 2s infinite alternate;
+  animation: moveX 1s linear 1s infinite alternate, moveY 1.4s linear 2s infinite alternate;
 }
 
 @-webkit-keyframes moveX {
