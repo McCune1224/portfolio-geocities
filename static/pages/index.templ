@@ -3,6 +3,7 @@ package pages
 import "geocity/static/pages/templates"
 import "strconv"
 import "geocity/static/pages/socials"
+import "geocity/static/pages/counter/zoomer"
 
 templ Index(viewCount int64) {
 	@templates.Base(templates.DefaultBase()) {
@@ -12,6 +13,7 @@ selection:bg-purple-300 selection:text-purple-900
 			"
 			style="background-image: url('/media/space_background.png');"
 		>
+			@zoomer.Zoomer()
 			<div class="text-white rainbow flex">
 				@socials.Socials("https://github.com/mccune1224") {
 					<p>Github</p>
@@ -63,7 +65,7 @@ selection:bg-purple-300 selection:text-purple-900
 					<div class=" border-4 border-dotted flex flex-row align-center justify-center content-center">
 						<a href="/spooky">
 							<img
-								class="animate-bounce"
+								class="animate-boingo"
 								src="media/smoking_skull.gif"
 								alt="Me as a flaming skeleton"
 							/>
