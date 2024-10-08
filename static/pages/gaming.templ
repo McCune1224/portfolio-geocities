@@ -1,0 +1,46 @@
+package pages
+
+import "geocity/static/pages/templates"
+
+templ GamingPage() {
+	@templates.Base(templates.DefaultBase()) {
+		<body
+			class="p-10 mx-64 bg-zinc-900 bg-cover bg-center"
+			style="background-image: url('/media/skyline.jpg');"
+		>
+			<img
+				src="media/KenGIF1.gif"
+				class="dvd"
+			/>
+			<div class="flip">
+				<img
+					src="media/RyuGIF2.gif"
+					class="dvd"
+				/>
+			</div>
+			<div class="p-2 bg-zinc-700 border-8 border-double border-green-400 text-white">
+				<h1 class="text-5xl text-center py-5 font-gaming-light rainbow">
+					Welcome to the 3p1c gamer lounge!
+				</h1>
+				<p class="text-center text-2xl font-gaming-light">
+					Nice job breaking the smash ball! Welcome to the gamer lounge! Here's some music you may play as you explore the lounge:
+				</p>
+				<p>
+					This is from Pokemon Mystery Dungeon Explorers of Time, one of my favorite games I played as a kid!:
+				</p>
+				<audio
+					controls
+					autoplay
+					loop
+				>
+					<source
+						src="media/Explorers_Of_Sky.mp3"
+						type="audio/mp3"
+					/>
+					Your browser does not support the audio element!
+				</audio>
+				<div class=""></div>
+			</div>
+		</body>
+	}
+}

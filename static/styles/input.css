@@ -11,3 +11,7 @@
   font-family: "comic-light";
   src: url("./../fonts/ldf_light.ttf") format("truetype");
 }
+@font-face {
+  font-family: "gaming-light";
+  src: url("../fonts/gaming_light.ttf") format("truetype");
+}
