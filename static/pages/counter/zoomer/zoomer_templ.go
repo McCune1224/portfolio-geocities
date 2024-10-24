@@ -29,7 +29,7 @@ func Zoomer() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div href=\"/spooky\" class=\"twirl\"><a href=\"/gaming\"><img src=\"media/smash_ball.gif\" height=\"50\" width=\"50\" class=\"dvd\"></a></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div href=\"/spooky\" class=\"twirl\"><a class=\"\n\t\tp-10\n\t\tdvd\" href=\"/gaming\"><img src=\"media/smash_ball.gif\" height=\"50\" width=\"50\"></a></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
