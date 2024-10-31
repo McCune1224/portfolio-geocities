@@ -67,7 +67,7 @@ func Base(config BaseConfig) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><title>My McWebsite!</title></head><body>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><script src=\"https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js\"></script><script src=\"/scripts/htmx.js\"></script><title>My McWebsite!</title></head><body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

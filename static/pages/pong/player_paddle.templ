@@ -1,0 +1,18 @@
+package pong
+
+import "fmt"
+
+css loading(percent int) {
+	width: { fmt.Sprintf("%d%%", percent) };
+	height: { "300" };
+}
+
+templ PlayerPaddle() {
+	<div class={ loading(50) }></div>
+	<div class={ loading(900) }></div>
+	<div id="player_paddle">
+		<div
+			class="h-24 w-2 bg-white absolute inset-10"
+		>.</div>
+	</div>
+}

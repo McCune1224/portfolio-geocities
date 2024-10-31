@@ -1,6 +1,7 @@
 package pages
 
 import "geocity/static/pages/templates"
+import "geocity/static/pages/pong"
 
 templ GamingPage() {
 	@templates.Base(templates.DefaultBase()) {
@@ -11,7 +12,7 @@ templ GamingPage() {
 			<div class="flex flex-row justify-between">
 				<div>
 					<a
-						class="text-white"
+						class="text-white bg-zinc-900 p-1"
 						href="/"
 					>
 						(Break me to go back home)
@@ -56,11 +57,12 @@ templ GamingPage() {
 				<h1 class="text-5xl text-center py-5 font-gaming-light rainbow">
 					Welcome to the Gamer Lounge!
 				</h1>
-				<p class="text-center text-xl my-10">
-					Nice job breaking the smash ball! Welcome to the venue!
-				</p>
 				<p class="text-center text-xl my-3">
-					I'm pretty into gaming <i>(shocker)</i>. I've been playing since a 
+					I'm pretty into gaming <i>(shocker)</i>. Here's Pong as proof (J for down K for up):
+				</p>
+				@pong.Board()
+				<p class="text-center text-xl my-3">
+					I've been playing since a 
 					very young age with my first console being a ps1. Below are some of my fav games below (no particular order besides portal being #1):
 				</p>
 				<div class="flex flex-col">
@@ -68,7 +70,7 @@ templ GamingPage() {
 						<p class="content-center p-3 leading-relaxed text-left">
 							This game is an absolute gem. I was presented this on a beautiful 
 							Christmas back in December of 2007 when I was 9 years old. 
-							My dad had bought Valve’s amazing <a class="text-orange-400" href="https://en.wikipedia.org/wiki/The_Orange_Box">"The Orange Box" </a>Collection, 
+							My dad had bought Valve’s amazing <a class="underline text-blue-500" href="https://en.wikipedia.org/wiki/The_Orange_Box">"The Orange Box" </a>Collection, 
 							and while I now speculate my Dad had bought it so that 
 							he could selfishly try out Team Fortress 2 as well as the Half-Life series, 
 							he saw that Portal was a lower maturity rating of the two and would allow me to play that. 
