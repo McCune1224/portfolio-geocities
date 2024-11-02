@@ -21,7 +21,9 @@ func (h *Handler) AttachRoutes(e *echo.Echo) {
 	e.GET("/", h.HomeHandler)
 	e.GET("/spooky", h.SpookyHandler)
 	e.GET("/gaming", h.GamingHandler)
-	e.GET("/ball", h.Tick)
+	e.GET("/pong/new", h.RenderBoard)
+	// e.GET("/ball", h.Tick)
+	// e.GET("/ponget", h.PongSocket)
 }
 
 // This custom Render replaces Echo's echo.Context.Render() with templ's templ.Component.Render().

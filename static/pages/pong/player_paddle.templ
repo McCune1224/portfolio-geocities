@@ -2,17 +2,15 @@ package pong
 
 import "fmt"
 
-css loading(percent int) {
-	width: { fmt.Sprintf("%d%%", percent) };
-	height: { "300" };
+css offset(x int, y int) {
+	height: { fmt.Sprintf("%drem", x) };
+	width: { fmt.Sprintf("%drem", y) };
 }
 
 templ PlayerPaddle() {
-	<div class={ loading(50) }></div>
-	<div class={ loading(900) }></div>
-	<div id="player_paddle">
+	<div id="player_paddle" class={ offset(10, 10) }>
 		<div
-			class="h-24 w-2 bg-white absolute inset-10"
+			class="bg-white absolute"
 		>.</div>
 	</div>
 }

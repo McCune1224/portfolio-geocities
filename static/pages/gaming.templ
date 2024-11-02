@@ -10,9 +10,9 @@ templ GamingPage() {
 			style="background-image: url('/media/mvc_avengers.jpg');"
 		>
 			<div class="flex flex-row justify-between">
-				<div>
+				<div class="bg-black">
 					<a
-						class="text-white bg-zinc-900 p-1"
+						class="text-white p-1"
 						href="/"
 					>
 						(Break me to go back home)
@@ -23,7 +23,7 @@ templ GamingPage() {
 						/>
 					</a>
 				</div>
-				<div>
+				<div class="bg-black">
 					<p class="text-white">
 						Enjoy some Alex Certified Music
 						<p class="text-xs italic text-white">
@@ -54,13 +54,13 @@ templ GamingPage() {
 				/>
 			</div>
 			<div class="p-2 bg-zinc-700 border-8 border-double border-green-400 text-white">
-				<h1 class="text-5xl text-center py-5 font-gaming-light rainbow">
+				<h1 class="text-5xl text-center py-5 font-gaming-light">
 					Welcome to the Gamer Lounge!
 				</h1>
 				<p class="text-center text-xl my-3">
 					I'm pretty into gaming <i>(shocker)</i>. Here's Pong as proof (J for down K for up):
 				</p>
-				@pong.Board()
+				@pong.UnStartedBoard()
 				<p class="text-center text-xl my-3">
 					I've been playing since a 
 					very young age with my first console being a ps1. Below are some of my fav games below (no particular order besides portal being #1):
