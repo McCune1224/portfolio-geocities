@@ -1,7 +1,7 @@
 package pong
 
 templ Board(grid [][]string) {
-	<table class="text-center">
+	<table id="pong-board" class="text-center">
 		for i := range grid {
 			<tr class="flex flex-row bg-zinc-900 ">
 				for j := range grid[i] {

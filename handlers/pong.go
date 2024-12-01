@@ -1,132 +1,59 @@
 package handlers
 
 import (
-	"fmt"
+	ponggame "geocity/pong"
 	"geocity/static/pages/pong"
+	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
-// Coordinates are tracked from the top-left most position
-type Coordinate struct {
-	X int
-	Y int
+func (h *Handler) RenderBoardHandler(c echo.Context) error {
+	board := ponggame.NewBoard(ponggame.GlobalBoardHeight, ponggame.GlobalBoardWidth)
+	return Render(c, 200, pong.Board(board.Grid))
 }
 
-type Direction struct {
-	pathing string
-}
-
-type BoardItem interface {
-	GetShape() [][]string
-	GetCoordinate() Coordinate
-	GetSymbol() string
-}
-
-type Ball struct {
-	position  Coordinate
-	direction Direction
-}
-
-func (b *Ball) GetShape() [][]string {
-	glyph := b.GetSymbol()
-	return [][]string{
-		{glyph, glyph},
-		{glyph, glyph},
-	}
-}
-
-func (b *Ball) GetCoordinate() Coordinate {
-	return b.GetCoordinate()
-}
-
-func (b *Ball) GetSymbol() string {
-	return "B"
-}
-
-type Paddle struct {
-	coordinate Coordinate
-}
-
-// GetCoordinate implements BoardItem.
-func (p *Paddle) GetCoordinate() Coordinate {
-	return p.coordinate
-}
-
-func (p *Paddle) GetSymbol() string {
-	return "|"
-}
-
-func (p *Paddle) GetShape() [][]string {
-	glyph := p.GetSymbol()
-	return [][]string{
-		{glyph},
-		{glyph},
-		{glyph},
-		{glyph},
-		{glyph},
-	}
-}
-
-type BoardState struct {
-	Grid [][]string
-}
-
-// func (bs *BoardState) Draw(startRow, startCol int, subSection [][]string) error {
-func (bs *BoardState) Draw(items ...BoardItem) error {
-	for _, item := range items {
-		startRow := item.GetCoordinate().X
-		startCol := item.GetCoordinate().Y
-		subSection := item.GetShape()
-		// Check if subsection fits within grid bounds
-		if startRow < 0 || startCol < 0 {
-			return fmt.Errorf("starting position (%d,%d) out of bounds", startRow, startCol)
-		}
-
-		if len(subSection) == 0 || len(subSection[0]) == 0 {
-			return fmt.Errorf("subsection cannot be empty")
-		}
-
-		endRow := startRow + len(subSection)
-		endCol := startCol + len(subSection[0])
-
-		if endRow > len(bs.Grid) || endCol > len(bs.Grid[0]) {
-			return fmt.Errorf("subsection exceeds grid bounds")
-		}
-
-		// Update the subsection
-		for i := range subSection {
-			for j := range subSection[i] {
-				bs.Grid[startRow+i][startCol+j] = subSection[i][j]
-			}
+func (h *Handler) NewGameHandler(c echo.Context) error {
+	cookies := c.Cookies()
+	for _, cookie := range cookies {
+		if cookie.Name == "game_id" {
+			h.DB.DeletePongSession(c.Request().Context(), cookie.Value)
 		}
 	}
-	return nil
+	gameId := uuid.New().String()
+	_, err := h.DB.CreatePongSession(
+		c.Request().Context(),
+		gameId,
+		ponggame.NewBoard(ponggame.GlobalBoardHeight, ponggame.GlobalBoardWidth))
+	if err != nil {
+		c.Logger().Error(err)
+		return err
+	}
+
+	c.SetCookie(&http.Cookie{
+		Name:  "game_id",
+		Value: gameId,
+	})
+	return c.Redirect(http.StatusFound, "/pong/update")
 }
 
-func NewBoard(height int, width int) BoardState {
-	grid := [][]string{}
-	for range height {
-		row := []string{}
-		for range width {
-			row = append(row, "-")
+func (h *Handler) UpdateGameHandler(c echo.Context) error {
+	cookies := c.Cookies()
+
+	gameId := ""
+	for _, cookie := range cookies {
+		if cookie.Name == "game_id" {
+			gameId = cookie.Value
 		}
-		grid = append(grid, row)
 	}
-	board := BoardState{
-		Grid: grid,
+	if gameId == "" {
+		c.Redirect(http.StatusTemporaryRedirect, "/pong/new")
 	}
-	playerPaddle := &Paddle{Coordinate{height / 2, width - 15}}
-	opponentPaddle := &Paddle{Coordinate{height / 2, 15}}
-	// ball := &Ball{position: Coordinate{10, 10}}
-	// board.Draw(playerPaddle)
-	board.Draw(playerPaddle)
-	board.Draw(opponentPaddle)
-
-	return board
-}
-
-func (h *Handler) RenderBoard(c echo.Context) error {
-	board := NewBoard(15, 175)
+	board, err := h.DB.GetBoard(c.Request().Context(), gameId)
+	if err != nil {
+		c.Logger().Error(err)
+		return err
+	}
 	return Render(c, 200, pong.Board(board.Grid))
 }
