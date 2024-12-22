@@ -1,4 +1,4 @@
-<table hx-get=\"/pong/update\" hx-swap=\"outerHTML\" hx-trigger=\"every 200ms\" id=\"pong-board\" class=\"text-center\">
+<table hx-get=\"/pong/update\" hx-swap=\"outerHTML\" hx-trigger=\"every 50ms\" id=\"pong-board\" class=\"text-center\">
 <tr class=\"flex flex-row bg-zinc-900 \">
 <td>
 </td>

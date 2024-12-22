@@ -2,6 +2,7 @@ package ponggame
 
 import (
 	"fmt"
+	"math/rand/v2"
 	"strconv"
 	"strings"
 )
@@ -90,11 +91,9 @@ func (bs *BoardState) DrawItems() error {
 // Move all board items in the direction they are facing (redirecting if they hit a wall) and redraw the board
 func (bs *BoardState) UpdateBoard(newPlayerDirection Direction) error {
 	// Ball Logic
-	ball := bs.ball
-	if ball.direction == DirectionUpRight {
-		ball.coordinate.X--
-		ball.coordinate.Y++
-	}
+	bs.ball.Move(bs.Grid, *bs.playerPaddle, *bs.opponentPaddle)
+	bs.playerPaddle.Move(bs.Grid, newPlayerDirection)
+	bs.playerPaddle.Move(bs.Grid, newPlayerDirection)
 
 	// Paddle Logic
 
@@ -112,11 +111,14 @@ func NewBoard(height int, width int) BoardState {
 		}
 		grid = append(grid, row)
 	}
+
+	startingBallDirections := []Direction{DirectionUpRight, DirectionDownRight, DirectionUpLeft, DirectionDownLeft}
+
 	board := BoardState{
 		Grid:            grid,
 		playerPaddle:    &Paddle{coordinate: Coordinate{(height / 2) - 3, width - 15}, direction: DirectionNothing},
 		opponentPaddle:  &Paddle{coordinate: Coordinate{(height / 2) - 3, 15}, direction: DirectionNothing},
-		ball:            &Ball{coordinate: Coordinate{height / 2, width / 2}, direction: Direction{"UR"}},
+		ball:            &Ball{coordinate: Coordinate{height / 2, width / 2}, direction: startingBallDirections[rand.IntN(len(startingBallDirections))]},
 		BackgroundGlyph: backgroundGlyph,
 	}
 	board.DrawItems()

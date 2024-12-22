@@ -14,6 +14,13 @@ func (h *Handler) RenderBoardHandler(c echo.Context) error {
 	return Render(c, 200, pong.LiveBoard(board.Grid))
 }
 
+func (h *Handler) NewCacheGameHandler(c echo.Context) error {
+	h.DB.DeleteCachePongSession(c)
+	h.DB.CreateCachePongSession(c, ponggame.NewBoard(ponggame.GlobalBoardHeight, ponggame.GlobalBoardWidth))
+
+	return c.Redirect(http.StatusFound, "/pong/update")
+}
+
 func (h *Handler) NewGameHandler(c echo.Context) error {
 	cookies := c.Cookies()
 	for _, cookie := range cookies {
@@ -38,7 +45,7 @@ func (h *Handler) NewGameHandler(c echo.Context) error {
 	return c.Redirect(http.StatusFound, "/pong/update")
 }
 
-func (h *Handler) UpdateGameHandler(c echo.Context) error {
+func (h *Handler) UpdateCacheGameHandler(c echo.Context) error {
 	cookies := c.Cookies()
 
 	gameId := ""
@@ -47,17 +54,17 @@ func (h *Handler) UpdateGameHandler(c echo.Context) error {
 		if cookie.Name == "game_id" {
 			gameId = cookie.Value
 		}
-		if cookie.Name == "direction" {
-			dirCookie = cookie.Value
-		}
 		if gameId == "" {
 			c.Redirect(http.StatusTemporaryRedirect, "/pong/new")
 		}
+		if cookie.Name == "direction" {
+			dirCookie = cookie.Value
+		}
 	}
-	board, err := h.DB.GetBoard(c.Request().Context(), gameId)
+	board, err := h.DB.GetCacheBoard(c)
 	if err != nil {
 		c.Logger().Error(err)
-		return err
+		c.Redirect(http.StatusTemporaryRedirect, "/pong/new")
 	}
 
 	playerDirection := ponggame.Direction{}
@@ -74,11 +81,7 @@ func (h *Handler) UpdateGameHandler(c echo.Context) error {
 		c.Logger().Error(err)
 		return Render(c, 200, pong.StartGameButton())
 	}
-	_, err = h.DB.UpdatePongSession(c.Request().Context(), gameId, board)
-	if err != nil {
-		c.Logger().Error(err)
-		return Render(c, 200, pong.StartGameButton())
-	}
+	h.DB.UpdateCachePongSession(c, board)
 
 	return Render(c, 200, pong.LiveBoard(board.Grid))
 

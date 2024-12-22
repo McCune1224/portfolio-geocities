@@ -23,8 +23,8 @@ func (h *Handler) AttachRoutes(e *echo.Echo) {
 	e.GET("/gaming", h.GamingHandler)
 
 	pong := e.Group("/pong")
-	pong.GET("/new", h.NewGameHandler)
-	pong.GET("/update", h.UpdateGameHandler)
+	pong.GET("/new", h.NewCacheGameHandler)
+	pong.GET("/update", h.UpdateCacheGameHandler)
 	// pong.GET("/reset", h.RenderBoardHandler)
 }
 
