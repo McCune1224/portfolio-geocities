@@ -2,12 +2,25 @@ package ponggame
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
 const (
-	GlobalBoardHeight = 15
-	GlobalBoardWidth  = 175
+	GlobalBoardHeight = 10
+	GlobalBoardWidth  = 110
+)
+
+var (
+	DirectionUp        = Direction{"U"}
+	DirectionDown      = Direction{"D"}
+	DirectionLeft      = Direction{"L"}
+	DirectionRight     = Direction{"R"}
+	DirectionUpLeft    = Direction{"UL"}
+	DirectionUpRight   = Direction{"UR"}
+	DirectionDownLeft  = Direction{"DL"}
+	DirectionDownRight = Direction{"DR"}
+	DirectionNothing   = Direction{"N"}
 )
 
 // Coordinates are tracked from the top-left most position
@@ -17,6 +30,7 @@ type Coordinate struct {
 }
 
 type Direction struct {
+	// Pathing is a string that represents the direction of the ball. UR = Up Right, DL = Down Left, ...
 	pathing string
 }
 
@@ -26,57 +40,23 @@ type BoardItem interface {
 	GetSymbol() string
 }
 
-type Ball struct {
-	position  Coordinate
-	direction Direction
-}
-
-func (b *Ball) GetShape() [][]string {
-	glyph := b.GetSymbol()
-	return [][]string{
-		{glyph, glyph},
-		{glyph, glyph},
-	}
-}
-
-func (b *Ball) GetCoordinate() Coordinate {
-	return b.GetCoordinate()
-}
-
-func (b *Ball) GetSymbol() string {
-	return "B"
-}
-
-type Paddle struct {
-	coordinate Coordinate
-}
-
-// GetCoordinate implements BoardItem.
-func (p *Paddle) GetCoordinate() Coordinate {
-	return p.coordinate
-}
-
-func (p *Paddle) GetSymbol() string {
-	return "|"
-}
-
-func (p *Paddle) GetShape() [][]string {
-	glyph := p.GetSymbol()
-	return [][]string{
-		{glyph},
-		{glyph},
-		{glyph},
-		{glyph},
-		{glyph},
-	}
-}
-
 type BoardState struct {
-	Grid [][]string
+	Grid            [][]string
+	BackgroundGlyph string
+	ball            *Ball
+	playerPaddle    *Paddle
+	opponentPaddle  *Paddle
 }
 
-// func (bs *BoardState) Draw(startRow, startCol int, subSection [][]string) error {
-func (bs *BoardState) Draw(items ...BoardItem) error {
+// Draws the Paddles and Ball onto the board
+func (bs *BoardState) DrawItems() error {
+	items := []BoardItem{bs.ball, bs.playerPaddle, bs.opponentPaddle}
+	//Reset the board
+	for i := range bs.Grid {
+		for j := range bs.Grid[i] {
+			bs.Grid[i][j] = bs.BackgroundGlyph
+		}
+	}
 	for _, item := range items {
 		startRow := item.GetCoordinate().X
 		startCol := item.GetCoordinate().Y
@@ -107,43 +87,145 @@ func (bs *BoardState) Draw(items ...BoardItem) error {
 	return nil
 }
 
+// Move all board items in the direction they are facing (redirecting if they hit a wall) and redraw the board
+func (bs *BoardState) UpdateBoard(newPlayerDirection Direction) error {
+	// Ball Logic
+	ball := bs.ball
+	if ball.direction == DirectionUpRight {
+		ball.coordinate.X--
+		ball.coordinate.Y++
+	}
+
+	// Paddle Logic
+
+	return bs.DrawItems()
+}
+
 func NewBoard(height int, width int) BoardState {
+	backgroundGlyph := " - "
 	grid := [][]string{}
 	for range height {
 		row := []string{}
 		for range width {
-			row = append(row, "-")
+			// FIXME: Need to add a whitespace because the ball glyph makes the board slanted on the right side of the ball
+			row = append(row, backgroundGlyph)
 		}
 		grid = append(grid, row)
 	}
 	board := BoardState{
-		Grid: grid,
+		Grid:            grid,
+		playerPaddle:    &Paddle{coordinate: Coordinate{(height / 2) - 3, width - 15}, direction: DirectionNothing},
+		opponentPaddle:  &Paddle{coordinate: Coordinate{(height / 2) - 3, 15}, direction: DirectionNothing},
+		ball:            &Ball{coordinate: Coordinate{height / 2, width / 2}, direction: Direction{"UR"}},
+		BackgroundGlyph: backgroundGlyph,
 	}
-	playerPaddle := &Paddle{Coordinate{height / 2, width - 15}}
-	opponentPaddle := &Paddle{Coordinate{height / 2, 15}}
-	// ball := &Ball{position: Coordinate{10, 10}}
-	// board.Draw(playerPaddle)
-	board.Draw(playerPaddle)
-	board.Draw(opponentPaddle)
+	board.DrawItems()
 
 	return board
 }
 
 func NewBoardFromFlattenedBoard(flattenBoard string) BoardState {
-	rows := strings.Split(flattenBoard, "\n")
+	split := strings.Split(flattenBoard, "_")
+	boardStr := split[0]
+	ballStr := split[1]
+	playerStr := split[2]
+	opponentStr := split[3]
+
+	boardSplit := strings.Split(boardStr, ",")
+	bX, _ := strconv.Atoi(boardSplit[0])
+	bY, _ := strconv.Atoi(boardSplit[1])
+
+	ballSplit := strings.Split(ballStr, ",")
+	ballX, _ := strconv.Atoi(ballSplit[0])
+	ballY, _ := strconv.Atoi(ballSplit[1])
+	ballDirection := Direction{ballSplit[2]}
+	ball := Ball{
+		coordinate: Coordinate{ballX, ballY},
+		direction:  ballDirection,
+	}
+
+	playerSplit := strings.Split(playerStr, ",")
+	playerX, _ := strconv.Atoi(playerSplit[0])
+	playerY, _ := strconv.Atoi(playerSplit[1])
+	playerDirection := Direction{playerSplit[2]}
+	player := Paddle{coordinate: Coordinate{playerX, playerY}, direction: playerDirection}
+
+	opponentSplit := strings.Split(opponentStr, ",")
+	opponentX, _ := strconv.Atoi(opponentSplit[0])
+	opponentY, _ := strconv.Atoi(opponentSplit[1])
+	opponentDirection := Direction{opponentSplit[2]}
+	opponent := Paddle{coordinate: Coordinate{opponentX, opponentY}, direction: opponentDirection}
+
 	grid := [][]string{}
-	for _, row := range rows {
-		grid = append(grid, strings.Split(row, ""))
+
+	for range bX {
+		row := []string{}
+		for range bY {
+			row = append(row, "- ")
+		}
+		grid = append(grid, row)
 	}
-	return BoardState{
-		Grid: grid,
+
+	board := BoardState{
+		BackgroundGlyph: "- ",
+		Grid:            grid,
+		playerPaddle:    &player,
+		opponentPaddle:  &opponent,
+		ball:            &ball,
 	}
+	board.DrawItems()
+	return board
 }
 
+// Flatten puts the board into a string format of (grid, ball, player, opponent)
 func (bs *BoardState) FlattenBoard() string {
-	flattenedBoard := ""
-	for _, row := range bs.Grid {
-		flattenedBoard += strings.Join(row, "") + "\n"
+	templatestr := "%s_%s_%s_%s"
+	gridStr := fmt.Sprintf("%d,%d", len(bs.Grid), len(bs.Grid[0]))
+	ballStr := bs.ball.Flatten()
+	opponentStr := bs.opponentPaddle.Flatten()
+	playerStr := bs.playerPaddle.Flatten()
+
+	return fmt.Sprintf(templatestr, gridStr, ballStr, playerStr, opponentStr)
+}
+
+func (bs *BoardState) GetBall() Ball {
+	var ball Ball
+	for x, row := range bs.Grid {
+		for y, cell := range row {
+			if cell == ball.GetSymbol() {
+				return Ball{
+					coordinate: Coordinate{x, y},
+				}
+			}
+		}
 	}
-	return flattenedBoard
+	return ball
+}
+
+func (bs *BoardState) GetPlayerPaddle() Paddle {
+	var paddle Paddle
+	for x, row := range bs.Grid {
+		for y, cell := range row {
+			if cell == "|" {
+				return Paddle{
+					coordinate: Coordinate{x, y},
+				}
+			}
+		}
+	}
+	return paddle
+}
+
+func (bs *BoardState) GetOpponentPaddle() Paddle {
+	var paddle Paddle
+	for x, row := range bs.Grid {
+		for y, cell := range row {
+			if cell == "|" {
+				return Paddle{
+					coordinate: Coordinate{x, y},
+				}
+			}
+		}
+	}
+	return paddle
 }

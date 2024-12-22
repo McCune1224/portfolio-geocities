@@ -1,7 +1,13 @@
 package pong
 
-templ Board(grid [][]string) {
-	<table id="pong-board" class="text-center">
+templ LiveBoard(grid [][]string) {
+	<table
+		hx-get="/pong/update"
+		hx-swap="outerHTML"
+		hx-trigger="every 200ms"
+		id="pong-board"
+		class="text-center"
+	>
 		for i := range grid {
 			<tr class="flex flex-row bg-zinc-900 ">
 				for j := range grid[i] {
@@ -14,13 +20,13 @@ templ Board(grid [][]string) {
 	</table>
 }
 
-templ UnStartedBoard() {
+templ StartGameButton() {
 	<div id="pong-board">
 		<button
 			class="bg-orange-400 border-2 border-pink-500 hover:text-purple-500 content-center"
 			type="button"
 			hx-get="/pong/new"
 			hx-swap="outerHTML"
-		>Load Pong</button>
+		>Play Pong</button>
 	</div>
 }

@@ -11,7 +11,7 @@ import (
 
 func (h *Handler) RenderBoardHandler(c echo.Context) error {
 	board := ponggame.NewBoard(ponggame.GlobalBoardHeight, ponggame.GlobalBoardWidth)
-	return Render(c, 200, pong.Board(board.Grid))
+	return Render(c, 200, pong.LiveBoard(board.Grid))
 }
 
 func (h *Handler) NewGameHandler(c echo.Context) error {
@@ -42,18 +42,44 @@ func (h *Handler) UpdateGameHandler(c echo.Context) error {
 	cookies := c.Cookies()
 
 	gameId := ""
+	dirCookie := ""
 	for _, cookie := range cookies {
 		if cookie.Name == "game_id" {
 			gameId = cookie.Value
 		}
-	}
-	if gameId == "" {
-		c.Redirect(http.StatusTemporaryRedirect, "/pong/new")
+		if cookie.Name == "direction" {
+			dirCookie = cookie.Value
+		}
+		if gameId == "" {
+			c.Redirect(http.StatusTemporaryRedirect, "/pong/new")
+		}
 	}
 	board, err := h.DB.GetBoard(c.Request().Context(), gameId)
 	if err != nil {
 		c.Logger().Error(err)
 		return err
 	}
-	return Render(c, 200, pong.Board(board.Grid))
+
+	playerDirection := ponggame.Direction{}
+	switch dirCookie {
+	case "u":
+		playerDirection = ponggame.DirectionUp
+	case "d":
+		playerDirection = ponggame.DirectionDown
+	default:
+		playerDirection = ponggame.DirectionNothing
+	}
+	err = board.UpdateBoard(playerDirection)
+	if err != nil {
+		c.Logger().Error(err)
+		return Render(c, 200, pong.StartGameButton())
+	}
+	_, err = h.DB.UpdatePongSession(c.Request().Context(), gameId, board)
+	if err != nil {
+		c.Logger().Error(err)
+		return Render(c, 200, pong.StartGameButton())
+	}
+
+	return Render(c, 200, pong.LiveBoard(board.Grid))
+
 }
