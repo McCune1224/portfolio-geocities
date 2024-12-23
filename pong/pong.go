@@ -26,8 +26,8 @@ var (
 
 // Coordinates are tracked from the top-left most position
 type Coordinate struct {
-	X int
 	Y int
+	X int
 }
 
 type Direction struct {
@@ -59,8 +59,8 @@ func (bs *BoardState) DrawItems() error {
 		}
 	}
 	for _, item := range items {
-		startRow := item.GetCoordinate().X
-		startCol := item.GetCoordinate().Y
+		startRow := item.GetCoordinate().Y
+		startCol := item.GetCoordinate().X
 		subSection := item.GetShape()
 		// Check if subsection fits within grid bounds
 		if startRow < 0 || startCol < 0 {
@@ -89,15 +89,24 @@ func (bs *BoardState) DrawItems() error {
 }
 
 // Move all board items in the direction they are facing (redirecting if they hit a wall) and redraw the board
-func (bs *BoardState) UpdateBoard(newPlayerDirection Direction) error {
+// Will return a string of "L" or "R" if the ball has scored
+func (bs *BoardState) UpdateBoard(newPlayerDirection Direction) (string, error) {
 	// Ball Logic
 	bs.ball.Move(bs.Grid, *bs.playerPaddle, *bs.opponentPaddle)
 	bs.playerPaddle.Move(bs.Grid, newPlayerDirection)
-	bs.playerPaddle.Move(bs.Grid, newPlayerDirection)
+
+	// Check if the ball has scored
+	// Ball has scored on the left side
+	if bs.ball.coordinate.X == 0 {
+		return "L", nil
+	}
+	if bs.ball.coordinate.X == len(bs.Grid[0])-1 {
+		return "R", nil
+	}
 
 	// Paddle Logic
 
-	return bs.DrawItems()
+	return "", bs.DrawItems()
 }
 
 func NewBoard(height int, width int) BoardState {
@@ -106,7 +115,6 @@ func NewBoard(height int, width int) BoardState {
 	for range height {
 		row := []string{}
 		for range width {
-			// FIXME: Need to add a whitespace because the ball glyph makes the board slanted on the right side of the ball
 			row = append(row, backgroundGlyph)
 		}
 		grid = append(grid, row)

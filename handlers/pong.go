@@ -57,26 +57,35 @@ func (h *Handler) UpdateCacheGameHandler(c echo.Context) error {
 		if gameId == "" {
 			c.Redirect(http.StatusTemporaryRedirect, "/pong/new")
 		}
-		if cookie.Name == "direction" {
+		if cookie.Name == "player_direction" {
 			dirCookie = cookie.Value
 		}
 	}
 	board, err := h.DB.GetCacheBoard(c)
 	if err != nil {
-		c.Logger().Error(err)
+		c.Logger().Error("UH OH STINKY, CACHE BOARD NOT FOUND")
 		c.Redirect(http.StatusTemporaryRedirect, "/pong/new")
 	}
 
 	playerDirection := ponggame.Direction{}
 	switch dirCookie {
-	case "u":
+	case "up":
 		playerDirection = ponggame.DirectionUp
-	case "d":
+	case "down":
 		playerDirection = ponggame.DirectionDown
 	default:
 		playerDirection = ponggame.DirectionNothing
 	}
-	err = board.UpdateBoard(playerDirection)
+	wallHit, err := board.UpdateBoard(playerDirection)
+	c.SetCookie(&http.Cookie{
+		Name:  "player_direction",
+		Value: " ",
+		Path:  "/",
+	})
+	// c.Logger().Debug()(win)
+	if wallHit != "" {
+		return Render(c, 200, pong.PongWinner(wallHit))
+	}
 	if err != nil {
 		c.Logger().Error(err)
 		return Render(c, 200, pong.StartGameButton())

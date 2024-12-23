@@ -27,27 +27,39 @@ func (p *Paddle) GetShape() [][]string {
 
 // Flattens Paddle into format of (x,y,direction)
 func (p *Paddle) Flatten() string {
-	return fmt.Sprintf("%d,%d,%s", p.coordinate.X, p.coordinate.Y, p.direction.pathing)
+	return fmt.Sprintf("%d,%d,%s", p.coordinate.Y, p.coordinate.X, p.direction.pathing)
 }
 
 func (p *Paddle) Move(grid [][]string, nextDirection Direction) {
+	p.direction = nextDirection
+	if p.direction == DirectionNothing {
+		return
+	}
+
 	if p.direction == DirectionUp {
-		if p.coordinate.X == 0 {
+		// Check if we're at the top edge or if there's another paddle above
+		if p.coordinate.Y <= 0 {
 			return
 		}
-		if grid[p.coordinate.X-1][p.coordinate.Y] == "|" {
+		// Check if there's space to move up (check the space above the paddle's top)
+		if grid[p.coordinate.Y-1][p.coordinate.X] == "|" {
 			return
 		}
-		p.coordinate.X--
+		// Move up by updating coordinate
+		p.coordinate.Y--
 	}
 
 	if p.direction == DirectionDown {
-		if p.coordinate.X == len(grid)-1 {
+		// Check if we're at the bottom edge or if there's another paddle below
+		// Need to check against len-3 because paddle is 3 chars high
+		if p.coordinate.Y >= len(grid)-3 {
 			return
 		}
-		if grid[p.coordinate.X+1][p.coordinate.Y] == "|" {
+		// Check if there's space to move down (check the space below the paddle's bottom)
+		if grid[p.coordinate.Y+3][p.coordinate.X] == "|" {
 			return
 		}
-		p.coordinate.X++
+		// Move down by updating coordinate
+		p.coordinate.Y++
 	}
 }

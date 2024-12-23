@@ -1,0 +1,20 @@
+package pong
+
+templ PongWinner(wallHit string) {
+	<div class="mx-auto flex flex-col justify-center" id="pong-board">
+		<p class="text-white text-5xl font-comic-light text-center rainbow">
+			if wallHit == "R" {
+				You Win!
+			} else {
+				Computer Won...yikes!
+			}
+		</p>
+		<button
+			class="bg-orange-400 border-2 border-pink-500 hover:text-purple-500 content-center text-2xl"
+			type="button"
+			hx-get="/pong/new"
+			hx-swap="outerHTML"
+			hx-target="#pong-board"
+		>Play Again</button>
+	</div>
+}

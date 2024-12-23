@@ -24,64 +24,71 @@ func (b *Ball) GetSymbol() string {
 
 // Flattens Ball into format of (x,y,direction)
 func (b *Ball) Flatten() string {
-	return fmt.Sprintf("%d,%d,%s", b.coordinate.X, b.coordinate.Y, b.direction.pathing)
+	return fmt.Sprintf("%d,%d,%s", b.coordinate.Y, b.coordinate.X, b.direction.pathing)
 }
 
-// Update the ball's position based on its direction
-func (b *Ball) Move(grid [][]string, playerPaddle Paddle, opponentPaddle Paddle) {
+// Update the ball's position based on its direction, will return a string of "L" or "R" if the ball has scored
+func (b *Ball) Move(grid [][]string, playerPaddle Paddle, opponentPaddle Paddle) string {
+
+	// fmt.Printf("X: %d Y: %d\n", b.coordinate.Y, b.coordinate.X)
 	if b.direction == DirectionUpRight {
-		if b.coordinate.X == 0 || b.coordinate.Y == len(grid[0])-1 || grid[b.coordinate.X-1][b.coordinate.Y+1] == "|" {
+		if b.coordinate.Y == 0 || b.coordinate.X == len(grid[0])-1 || grid[b.coordinate.Y-1][b.coordinate.X+1] == playerPaddle.GetSymbol() {
 			b.direction = DirectionDownRight
+			b.coordinate.Y++
 			b.coordinate.X++
-			b.coordinate.Y++
-		} else if b.coordinate.Y == len(grid[0])-1 {
+		} else if b.coordinate.X == len(grid[0])-1 {
 			b.direction = DirectionUpLeft
-			b.coordinate.Y--
-		} else {
 			b.coordinate.X--
-			b.coordinate.Y++
+		} else {
+			b.coordinate.Y--
+			b.coordinate.X++
 		}
+		return ""
 	}
 
 	if b.direction == DirectionUpLeft {
-		if b.coordinate.X == 0 || b.coordinate.Y == 0 || grid[b.coordinate.X-1][b.coordinate.Y-1] == "|" {
+		if b.coordinate.Y == 0 || b.coordinate.X == 0 || grid[b.coordinate.Y-1][b.coordinate.X-1] == playerPaddle.GetSymbol() {
 			b.direction = DirectionDownLeft
-			b.coordinate.X++
-			b.coordinate.Y--
-		} else if b.coordinate.Y == 0 {
-			b.direction = DirectionUpRight
 			b.coordinate.Y++
-		} else {
 			b.coordinate.X--
+		} else if b.coordinate.X == 0 {
+			b.direction = DirectionUpRight
+			b.coordinate.X++
+		} else {
 			b.coordinate.Y--
+			b.coordinate.X--
+			return ""
 		}
 	}
 
 	if b.direction == DirectionDownRight {
-		if b.coordinate.X == len(grid)-1 || b.coordinate.Y == len(grid[0])-1 || grid[b.coordinate.X+1][b.coordinate.Y+1] == "|" {
+		if b.coordinate.Y == len(grid)-1 || b.coordinate.X == len(grid[0])-1 || grid[b.coordinate.Y+1][b.coordinate.X+1] == playerPaddle.GetSymbol() {
 			b.direction = DirectionUpRight
-			b.coordinate.X--
-			b.coordinate.Y++
-		} else if b.coordinate.Y == len(grid[0])-1 {
-			b.direction = DirectionDownLeft
 			b.coordinate.Y--
-		} else {
 			b.coordinate.X++
+		} else if b.coordinate.X == len(grid[0])-1 {
+			b.direction = DirectionDownLeft
+			b.coordinate.X--
+		} else {
 			b.coordinate.Y++
+			b.coordinate.X++
+			return ""
 		}
 	}
 
 	if b.direction == DirectionDownLeft {
-		if b.coordinate.X == len(grid)-1 || b.coordinate.Y == 0 || grid[b.coordinate.X+1][b.coordinate.Y-1] == "|" {
+		if b.coordinate.Y == len(grid)-1 || b.coordinate.X == 0 || grid[b.coordinate.Y+1][b.coordinate.X-1] == playerPaddle.GetSymbol() {
 			b.direction = DirectionUpLeft
+			b.coordinate.Y--
 			b.coordinate.X--
-			b.coordinate.Y--
-		} else if b.coordinate.Y == 0 {
+		} else if b.coordinate.X == 0 {
 			b.direction = DirectionDownRight
-			b.coordinate.Y++
-		} else {
 			b.coordinate.X++
-			b.coordinate.Y--
+		} else {
+			b.coordinate.Y++
+			b.coordinate.X--
+			return ""
 		}
 	}
+	return ""
 }
