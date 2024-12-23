@@ -43,7 +43,7 @@ func SpookyPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<body class=\"p-10 mx-64 bg-zinc-900 bg-cover bg-center\" style=\"background-image: url(&#39;/media/skeleton_background.jpg&#39;);\"><a href=\"/\"><img src=\"/media/back_hand.gif\" alt=\"Back to the home page\"></a><div class=\"p-2 bg-zinc-700 border-8 border-double border-orange-300 text-white\"><h1 class=\"text-5xl font-comic-light text-center py-5\">You've found the spooky page!</h1><div class=\"grid grid-row-4\"><img src=\"/media/skeleton.gif\" alt=\"Back to the home page\"> <img src=\"/media/smoking_skull.gif\" alt=\"Back to the home page\"> <img src=\"/media/bouncy_skelly.gif\" alt=\"Back to the home page\"> <img src=\"/media/captain_skelly.gif\" alt=\"Back to the home page\"></div></div></body>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

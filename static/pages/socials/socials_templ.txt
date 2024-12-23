@@ -1,3 +1,0 @@
-<div class=\"bg-zinc-900 border-8 border-double border-zinc-700\"><a href=\"
-\" target=\"_blank\">
-</a></div>
